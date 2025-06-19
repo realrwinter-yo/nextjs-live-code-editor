@@ -10,7 +10,7 @@ jobs:
       tag: '22.13.1'
     steps:
       - checkout
-      - node/install-packages
+      - run: npm ci
       - run: npm run format
       - run: npm run lint -- --fix
       - run: npm test
