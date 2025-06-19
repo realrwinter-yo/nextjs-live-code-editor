@@ -13,17 +13,23 @@ export default function LiveEditor() {
 
   // Update iframe output when any of the three code inputs change
   useEffect(() => {
+    const total = code.html.length + code.css.length + code.javascript.length;
+    if (total > 100_000) return;
+
+    if (/<script/i.test(code.html)) return;
+
     const htmlDoc = `
-        <html>
-            <head>
-            <style>${code.css}</style>
-            </head>
-            <body>
-            ${code.html}
-            <script>${code.javascript}<\/script>
-            </body>
-        </html>
-        `;
+    <html>
+      <head>
+        <style>${code.css}</style>
+      </head>
+      <body>
+        ${code.html}
+        <script>${code.javascript}<\/script>
+      </body>
+    </html>
+  `;
+
     const blob = new Blob([htmlDoc], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     if (iframeRef.current) iframeRef.current.src = url;
@@ -79,6 +85,7 @@ export default function LiveEditor() {
             ref={iframeRef}
             className="w-full h-full border-0"
             title="Live Output"
+            sandbox="allow-scripts"
           />
         </div>
       </div>
