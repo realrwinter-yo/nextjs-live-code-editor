@@ -20,8 +20,6 @@ export function validateCode(
   }
 
   // Reject script tags in the HTML panel to prevent XSS in the sandbox.
-  // BUG: /<script>/i only matches a bare <script> with no attributes.
-  // A tag like <script src="evil.js"> passes the check undetected.
   if (/<script>/i.test(html)) {
     return { valid: false, error: "Script tags are not allowed in HTML" };
   }
