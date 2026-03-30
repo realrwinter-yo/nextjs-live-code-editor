@@ -1,5 +1,22 @@
 version: 2.1
 
+parameters:
+  create-new-branch:
+    type: boolean
+    default: false
+  message-id:
+    type: string
+    default: ""
+  agent-type:
+    type: string
+    default: ""
+  run-pipeline-as-a-tool:
+    type: boolean
+    default: false
+  run-id:
+    type: string
+    default: ""
+
 workflows:
   cci-agent-setup:
     jobs:
