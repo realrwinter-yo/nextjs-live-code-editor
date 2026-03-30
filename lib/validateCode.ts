@@ -20,7 +20,7 @@ export function validateCode(
   }
 
   // Reject script tags in the HTML panel to prevent XSS in the sandbox.
-  if (/<script>/i.test(html)) {
+  if (/<script/i.test(html)) {
     return { valid: false, error: "Script tags are not allowed in HTML" };
   }
 
