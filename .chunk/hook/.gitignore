@@ -1,0 +1,3 @@
+# chunk hook runtime files (not committed)
+.chunk-hook-active
+.chunk/run.json

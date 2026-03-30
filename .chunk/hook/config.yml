@@ -1,0 +1,51 @@
+# .chunk/hook/config.yml — Per-repo configuration for chunk hook.
+#
+# Place this file at `.chunk/hook/config.yml` in your project root.
+# Edit the `command:` fields below to match your repo's tooling.
+#
+# Environment variable overrides (always win over this file):
+#   CHUNK_HOOK_ENABLE=1              Enable all commands
+#   CHUNK_HOOK_ENABLE_TESTS=1        Enable a specific exec by name
+#   CHUNK_HOOK_ENABLE_REVIEW=1       Enable a specific task by name
+#   CHUNK_HOOK_TIMEOUT_TESTS=120     Override timeout for an exec (seconds)
+#   CHUNK_HOOK_SENTINELS_DIR=/tmp/s  Override result-file directory
+#   CHUNK_HOOK_CONFIG=/path/to.yml   Use a different config file
+#   CHUNK_HOOK_VERBOSE=1             Verbose logging to stderr
+
+# --- Named trigger groups ---
+triggers:
+  pre-commit:
+    - "git commit"
+    - "git push"
+
+# --- Exec definitions ---
+# TODO: Set the `command:` fields to match your repo's test/lint commands.
+execs:
+  tests:
+    command: "npx jest --passWithNoTests"
+    fileExt: ".ts,.tsx"
+    always: false
+    timeout: 120
+    limit: 3
+
+  tests-changed:
+    command: ""
+    fileExt: ".ts,.tsx"
+    always: false
+    timeout: 300
+    limit: 3
+
+  lint:
+    command: "npx eslint --no-warn-ignored"
+    fileExt: ".ts,.tsx"
+    always: false
+    timeout: 60
+    limit: 3
+
+# --- Task definitions ---
+tasks:
+  review:
+    instructions: ".chunk/context/review-prompt.md"
+    schema: ".chunk/hook/code-review-schema.json"
+    always: false
+    limit: 3
